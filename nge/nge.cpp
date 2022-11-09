@@ -8,53 +8,50 @@ int main(){
     cin.tie(nullptr);
     cout.tie(nullptr);
 
-    stack<int> discrim;
-
-    int n;
-    cin >> n;
+    int a;
+    cin >> a;
     cin.ignore();
-    int* a = new int[n];
-    int* output = new int[n];
-    int temp;
-    for(int i=0; i<n; i++){
-        cin >> temp;
-        a[i] = temp;
+
+    int *array = new int[a];
+    for(int i=0; i<a; i++){
+        cin >> array[i];
     }
 
-    for(int i=0; i<n; i++){
-        if(i==0) discrim.push(i);
+    //Evaluate NGE each index
 
-        else if(a[discrim.top()] < a[i] && i != n-1){
-            output[discrim.top()] = a[i];
-            discrim.pop();
-            discrim.push(i);
+    stack<int> temp_stack;
+    stack<int> result_stack;
+
+    for(int i=0; i<a; i++){
+        if(temp_stack.empty()&&i==0) temp_stack.push(array[i]);
+
+        if(array[i]<temp_stack.top()) temp_stack.push(array[i]);
+
+        while(temp_stack.top() < array[i]){
+            temp_stack.pop();
+            result_stack.push(array[i]);
         }
-
-        else if(a[discrim.top()] >= a[i]){
-            discrim.push(i);
-        }
-
-        if(i==n-1){
-            while(!discrim.empty()){
-                if(a[discrim.top()] < a[i]){
-                    output[discrim.top()] = a[i];
-                    discrim.pop();
-                }
-
-                else{
-                    output[discrim.top()] = -1;
-                    discrim.pop();
-                }
+        if(i == a-1 && !temp_stack.empty()){
+            while(!temp_stack.empty()){
+                cout << -1 << ' ';
+                temp_stack.pop();
             }
-            output[n-1] = -1;
         }
-    }
+        while(!result_stack.empty()){
+            cout << result_stack.top() << ' ';
+            result_stack.pop();
+        }
+        temp_stack.push(array[i]);
 
-    for(int i=0; i<n; i++){
-        if(i != n-1) cout << output[i] << ' ';
-        else cout << output[i];
-    }
 
-    delete[] a;
-    delete[] output;
+        if(i==a-1) cout << -1;
+        }
+
+    delete [] array;
 }
+
+
+
+
+
+
