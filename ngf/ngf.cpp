@@ -2,6 +2,7 @@
 #include <vector>
 #include <stack>
 using namespace std;
+int freq[1000001];
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -11,6 +12,7 @@ int main() {
     vector<int> ans(n);
     for (int i=0; i<n; i++) {
         cin >> a[i];
+        freq[a[i]] += 1;
     }
     stack<int> s;
     s.push(0);
@@ -18,7 +20,7 @@ int main() {
         if (s.empty()) {
             s.push(i);
         }
-        while (!s.empty() && a[s.top()] < a[i]) {
+        while (!s.empty() && freq[a[s.top()]] < freq[a[i]]) {
             ans[s.top()] = a[i];
             s.pop();
         }
